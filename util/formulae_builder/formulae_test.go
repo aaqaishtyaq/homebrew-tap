@@ -13,7 +13,7 @@ func TestPrintFormula(t *testing.T) {
 	version := "0.1.5"
 	config := "./config.hcl"
 	buf := new(bytes.Buffer)
-	expect := `class iay < Formula
+	expect := `class Iay < Formula
   desc "Minimilist shell prompt."
   homepage "https://github.com/aaqaishtyaq/iay"
   version "0.1.5"

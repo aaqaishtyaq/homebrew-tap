@@ -36,7 +36,7 @@ type FormulaMetadata struct {
 	Enable     bool   `hcl:"enable"`
 	Binary     string `hcl:"binary,optional"`
 	ReleaseURL string
-	ShaSum       string
+	ShaSum     string
 }
 
 func loadConfig(filepath string) (Config, error) {
