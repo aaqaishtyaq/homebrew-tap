@@ -1,6 +1,6 @@
 formula {
     product = "iay"
-    name = "iay"
+    name = "Iay"
     desc = "Minimilist shell prompt."
     homepage = "https://github.com/aaqaishtyaq/iay"
     architectures {

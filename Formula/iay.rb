@@ -1,4 +1,4 @@
-class iay < Formula
+class Iay < Formula
   desc "Minimilist shell prompt."
   homepage "https://github.com/aaqaishtyaq/iay"
   version "0.1.5"
