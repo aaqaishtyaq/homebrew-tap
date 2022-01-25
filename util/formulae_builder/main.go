@@ -12,22 +12,15 @@ func main() {
 		fmt.Println("Please provide product and version")
 		os.Exit(1)
 	}
+
 	product := os.Args[1]
 	version := os.Args[2]
-	// config := os.Args[3]
+	config := os.Args[3]
 
-	// err := printFormula(product, version, config, os.Stdout)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
-	sums, err := loadShasums(product, version)
+	err := printFormula(product, version, config, os.Stdout)
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
 	}
-
-	fmt.Println(sums)
 
 	os.Exit(0)
 }

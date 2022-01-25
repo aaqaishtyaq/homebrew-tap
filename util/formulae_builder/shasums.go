@@ -7,32 +7,77 @@ import (
 	"strings"
 )
 
-func loadShasums(product string, version string) (map[string]string, error) {
-	shasums := make(map[string]string)
-	shasumURL := fmt.Sprintf("https://releases.hashicorp.com/%s/%s/%s_%s_SHA256SUMS", product, version, product, version)
-	resp, err := http.Get(shasumURL)
-	if err != nil {
-		return shasums, err
-	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-
-	lines := strings.Split(string(body), "\n")
-	for _, l := range lines {
-		if len(l) > 0 {
-			parts := strings.Split(l, "  ")
-			if len(parts) == 2 {
-				shasum := parts[0]
-				zip := parts[1]
-				shasums[zip] = shasum
-			}
+func loadMeta(config *FormulaConfig) error {
+	if config.Architectures.Amd64.DarwinFormula.Enable {
+		releaseURL, shaSum, err := fetchMeta(config, config.Architectures.Amd64.DarwinFormula.Binary)
+		if err != nil {
+			return err
 		}
+
+		config.Architectures.Amd64.DarwinFormula.ReleaseURL = releaseURL
+		config.Architectures.Amd64.DarwinFormula.ShaSum = shaSum
 	}
 
-	return shasums, nil
+	if config.Architectures.Amd64.LinuxFormula.Enable {
+		releaseURL, shaSum, err := fetchMeta(config, config.Architectures.Amd64.LinuxFormula.Binary)
+		if err != nil {
+			return err
+		}
+
+		config.Architectures.Amd64.LinuxFormula.ReleaseURL = releaseURL
+		config.Architectures.Amd64.LinuxFormula.ShaSum = shaSum
+	}
+
+	if config.Architectures.Aarch64.DarwinFormula.Enable {
+		releaseURL, shaSum, err := fetchMeta(config, config.Architectures.Aarch64.DarwinFormula.Binary)
+		if err != nil {
+			return err
+		}
+
+		config.Architectures.Aarch64.DarwinFormula.ReleaseURL = releaseURL
+		config.Architectures.Aarch64.DarwinFormula.ShaSum = shaSum
+	}
+
+	if config.Architectures.Aarch64.LinuxFormula.Enable {
+		releaseURL, shaSum, err := fetchMeta(config, config.Architectures.Aarch64.LinuxFormula.Binary)
+		if err != nil {
+			return err
+		}
+
+		config.Architectures.Aarch64.LinuxFormula.ReleaseURL = releaseURL
+		config.Architectures.Aarch64.LinuxFormula.ShaSum = shaSum
+	}
+
+	return nil
 }
 
-func getShasum(shasums map[string]string, product string, version string, arch string) string {
-	zip := fmt.Sprintf("%s_%s_%s.zip", product, version, arch)
-	return shasums[zip]
+func fetchMeta(config *FormulaConfig, binary string) (string, string, error) {
+	releaseURL := fmt.Sprintf("https://github.com/aaqaishtyaq/%s/releases/download/v%s/%s-%s.tar.gz", config.Product, config.Version, config.Product, binary)
+	shaSumURL := fmt.Sprintf("%s.sha256", releaseURL)
+	s, err := loadShasum(shaSumURL)
+	shaSum := strings.Trim(s, "\n")
+	if err != nil {
+		return "", "", err
+	}
+	return releaseURL, shaSum, nil
+}
+
+func loadShasum(url string) (string, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("StatusCode: %d", resp.StatusCode)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
 }
