@@ -24,3 +24,9 @@ jobs:
       - name: Generate new formula
         run: |
           ./util/formulae_builder/formulae_builder ${{github.event.client_payload.name}} ${{github.event.client_payload.version}} ./util/formulae_builder/config.hcl > ./Formula/${{github.event.client_payload.name}}.rb
+
+      - name: Publish formula
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Bump ${{github.event.client_payload.name}} ${{github.event.client_payload.version}}
+          file_pattern: Formula/*.rb
