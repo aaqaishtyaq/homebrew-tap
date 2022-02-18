@@ -1,0 +1,26 @@
+name: Update Product Formula in Tap
+
+on:
+  repository_dispatch:
+    types: [version-updated]
+
+jobs:
+  update-formula:
+    name: Update Formula
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Build formulae_builder CLI
+        run: |
+          cd util/formulae_builder && go build -v ./...
+
+      - name: Generate new formula
+        run: |
+          ./util/formulae_builder/formulae_builder ${{github.event.client_payload.name}} ${{github.event.client_payload.version}} ./util/formulae_builder/config.hcl > ./Formula/${{github.event.client_payload.name}}.rb
