@@ -1,11 +1,11 @@
 class Iay < Formula
   desc "Minimilist shell prompt."
   homepage "https://github.com/aaqaishtyaq/iay"
-  version "0.1.7"
+  version "0.1.8"
 
   if OS.mac?
-    url "https://github.com/aaqaishtyaq/iay/releases/download/v0.1.7/iay-x86_64-apple-darwin.tar.gz"
-    sha256 "7fa50856957c9014ec6956f1678793520cdbc6aaf62bdbfb131eca978a5aabf7"
+    url "https://github.com/aaqaishtyaq/iay/releases/download/v0.1.8/iay-x86_64-apple-darwin.tar.gz"
+    sha256 "f48aee7225fd27a60c344d5e6fd531c56edd115b7c3d8c1f70532a56559602c0"
   end
 
   if OS.mac? && Hardware::CPU.arm?
@@ -20,13 +20,13 @@ class Iay < Formula
   end
 
   if OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/aaqaishtyaq/iay/releases/download/v0.1.7/iay-x86_64-unknown-linux-gnu.tar.gz"
-    sha256 "b0f7b243951d91382f7f79ec45de6e0f1d43828d04d0615997242df0c3853024"
+    url "https://github.com/aaqaishtyaq/iay/releases/download/v0.1.8/iay-x86_64-unknown-linux-gnu.tar.gz"
+    sha256 "491235db9665b86662be36cf95e42ffee4ec746f4ddc89bfff0fadc35af20e9a"
   end
 
   if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/aaqaishtyaq/iay/releases/download/v0.1.7/iay-aarch64-unknown-linux-musl.tar.gz"
-    sha256 "723f786425cfdf8a1b843732c2a849b1f0a91eec247b6d3942bd681107993ad0"
+    url "https://github.com/aaqaishtyaq/iay/releases/download/v0.1.8/iay-aarch64-unknown-linux-musl.tar.gz"
+    sha256 "3b4466e68b985b4b78f441dc507c86bd8f3480ed612e7b7f6e4c90b9844066af"
   end
 
   conflicts_with "iay"
