@@ -16,7 +16,7 @@ formula {
         }
         aarch64 {
             darwin {
-                enable = false
+                enable = true
                 binary = "aarch64-apple-darwin"
 
             }
